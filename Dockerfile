@@ -14,11 +14,11 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
-    apt-get install -y python3.11 python3.11-dev python3.11-venv python3.11-distutils python3-pip git libgl1 libglib2.0-0
+    apt-get install -y python3.11 python3.11-dev python3.11-venv python3.11-distutils python3-pip git libgl1 libglib2.0-0 && apt-get -y autoremove --purge && apt-get clean
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
     python3.11 -m ensurepip --upgrade && \
-    python3.11 -m pip install --upgrade pip
+    python3.11 -m pip install --upgrade pip 
 
 ARG WORK_DIR=/root/open-avatar-chat
 WORKDIR $WORK_DIR
@@ -27,7 +27,7 @@ WORKDIR $WORK_DIR
 COPY ./install.py $WORK_DIR/install.py
 COPY ./pyproject.toml $WORK_DIR/pyproject.toml
 COPY ./src/third_party $WORK_DIR/src/third_party
-RUN pip install uv && \
+RUN pip install uv && pip cache purge &&\
     uv venv --python 3.11.11 && \
     uv sync --no-install-workspace
 
