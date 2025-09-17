@@ -46,7 +46,7 @@ RUN chmod +x $WORK_DIR/scripts/pre_config_install.sh && \
 RUN uv run install.py \
     --config /tmp/build_config.yaml \
     --uv \
-    --skip-core
+    --skip-core &&  uv ache prune
 
 # Execute post-config installation script
 RUN chmod +x $WORK_DIR/scripts/post_config_install.sh && \
